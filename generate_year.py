@@ -26,3 +26,5 @@ with open(input) as f:
 
     f = open(f"{year}/{i}.example.txt", "x")
     f.close()
+    f = open(f"{year}/{i}.txt", "x")
+    f.close()
