@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 
+from collections import defaultdict
 import heapq
 from io import TextIOWrapper
 
-useSample = True
+useSample = False
 
 def part1(f: TextIOWrapper):
     result = 0
@@ -22,9 +23,16 @@ def part1(f: TextIOWrapper):
 
 def part2(f: TextIOWrapper):
     result = 0
+    counts = defaultdict(int)
+    left = []
 
     for line in f.readlines():
-        pass
+        l, r = [int(num) for num in line.split()]
+        counts[r] += 1
+        left.append(l)
+    
+    for num in left:
+        result += num * counts[num]
 
     print(f"Result: {result}")
 
