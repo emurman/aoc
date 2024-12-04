@@ -1,22 +1,38 @@
 #!/usr/bin/python3
 
 from io import TextIOWrapper
+import re
 
-useSample = True
+useSample = False
 
 def part1(f: TextIOWrapper):
     result = 0
 
+    pattern = re.compile(r"(mul\(\d{1,3},\d{1,3}\))")
     for line in f.readlines():
-        pass
+        for match in pattern.finditer(line):
+            mult = match.group(1)
+            mult = [int(num) for num in mult[4:-1].split(",")]
+            result += mult[0] * mult[1]
     
     print(f"Result: {result}")
 
 def part2(f: TextIOWrapper):
     result = 0
 
+    pattern = re.compile(r"(do\(\))|(don't\(\))|(mul\(\d{1,3},\d{1,3}\))")
+    shouldDo = True
+
     for line in f.readlines():
-        pass
+        for match in pattern.finditer(line):
+            do, doNot, mult = match.groups()
+            if doNot is not None:
+                shouldDo = False
+            elif do is not None:
+                shouldDo = True
+            elif shouldDo:
+                mult = [int(num) for num in mult[4:-1].split(",")]
+                result += mult[0] * mult[1]
 
     print(f"Result: {result}")
 
