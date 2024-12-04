@@ -4,19 +4,21 @@ from io import TextIOWrapper
 
 useSample = True
 
-def part1(f: TextIOWrapper):
-    result = 0
+def parse(f: TextIOWrapper):
+    result = None
 
     for line in f.readlines():
         pass
-    
+
+    return result
+
+def part1(parsedInput):
+    result = 0
+
     print(f"Result: {result}")
 
-def part2(f: TextIOWrapper):
+def part2(parsedInput):
     result = 0
-
-    for line in f.readlines():
-        pass
 
     print(f"Result: {result}")
 
@@ -36,10 +38,10 @@ print()
 
 with open(usedInput) as f:
     print("Part 1")
-    part1(f)
+    part1(parse(f))
 
 print()
 
 with open(usedInput) as f:
     print("Part 2")
-    part2(f)
+    part2(parse(f))
