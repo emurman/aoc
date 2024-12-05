@@ -35,13 +35,13 @@ else:
     print("Running with actual input")
 
 print()
+parsedInput = None
 
 with open(usedInput) as f:
     print("Part 1")
-    part1(parse(f))
+    parsedInput = parse(f)
+    part1(parsedInput)
 
-print()
-
-with open(usedInput) as f:
+    print()
     print("Part 2")
-    part2(parse(f))
+    part2(parsedInput)
