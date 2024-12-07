@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 from io import TextIOWrapper
+from multiprocessing import cpu_count, Pool
 
 useSample = False
 
@@ -41,35 +42,39 @@ def part1(parsedInput):
 
     print(f"Result: {result}")
 
+def process(equation):
+    target, nums = equation
+    return backtrack(1, nums, target, nums[0], [addition, multiplication, concatenation])
+
 def part2(parsedInput):
     result = 0
-    
-    for equation in parsedInput:
-        target, nums = equation
-        result += backtrack(1, nums, target, nums[0], [addition, multiplication, concatenation])
+    pool = Pool(cpu_count() - 1)
+
+    result = sum(pool.map(process, parsedInput))
 
     print(f"Result: {result}")
 
-problem = "7"
-year = "2024"
-sample = f"{year}/{problem}.example.txt"
-puzzleInput = f"{year}/{problem}.txt"
+if __name__ == "__main__":
+    problem = "7"
+    year = "2024"
+    sample = f"{year}/{problem}.example.txt"
+    puzzleInput = f"{year}/{problem}.txt"
 
-usedInput = sample if useSample else puzzleInput
+    usedInput = sample if useSample else puzzleInput
 
-if useSample:
-    print("Running with sample input")
-else:
-    print("Running with actual input")
-
-print()
-parsedInput = None
-
-with open(usedInput) as f:
-    print("Part 1")
-    parsedInput = parse(f)
-    part1(parsedInput)
+    if useSample:
+        print("Running with sample input")
+    else:
+        print("Running with actual input")
 
     print()
-    print("Part 2")
-    part2(parsedInput)
+    parsedInput = None
+
+    with open(usedInput) as f:
+        print("Part 1")
+        parsedInput = parse(f)
+        part1(parsedInput)
+
+        print()
+        print("Part 2")
+        part2(parsedInput)
