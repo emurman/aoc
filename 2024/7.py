@@ -2,23 +2,51 @@
 
 from io import TextIOWrapper
 
-useSample = True
+useSample = False
 
 def parse(f: TextIOWrapper):
-    result = None
+    result = []
 
     for line in f.readlines():
-        pass
+        target, nums = line.split(":")
+        nums = [int(num) for num in nums.strip().split(" ")]
+        target = int(target)
+        result.append((target, nums))
 
     return result
 
+def backtrack(i, nums, target, acc, operators):
+    if i == len(nums):
+        return target if acc == target else 0
+
+    if acc > target: return 0
+
+    for operator in operators:
+        newAcc = operator(acc, nums[i])
+        if backtrack(i + 1, nums, target, newAcc, operators):
+            return target
+    
+    return 0
+
+addition = lambda x, y: x + y
+multiplication = lambda x, y: x * y
+concatenation = lambda x, y: int(str(x) + str(y))
+
 def part1(parsedInput):
     result = 0
+    
+    for equation in parsedInput:
+        target, nums = equation
+        result += backtrack(1, nums, target, nums[0], [addition, multiplication])
 
     print(f"Result: {result}")
 
 def part2(parsedInput):
     result = 0
+    
+    for equation in parsedInput:
+        target, nums = equation
+        result += backtrack(1, nums, target, nums[0], [addition, multiplication, concatenation])
 
     print(f"Result: {result}")
 
